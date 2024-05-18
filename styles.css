@@ -194,6 +194,14 @@ textarea:hover{
     color:white;
 
 }
+/* CSS classes for correct and incorrect characters */
+.correct-char {
+    color: white;
+}
+.incorrect-char {
+    background-color:#CF352E;
+}
+
 #start-btn,#stop-btn{
     width:20%;
     padding:10px;
@@ -319,9 +327,10 @@ textarea:hover{
     align-items:center;
 
 }
-.star:hover{
+.star-hover{
     background-color:#05900E;
     color:white;
+    cursor: pointer;
 }
 #rating-msg-section{
     width:95%;
@@ -334,7 +343,7 @@ textarea:hover{
     width:98%;
     margin:5px auto;
     padding:15px;
-    font-size:2em;
+    font-size:1.5em;
     font-weight:700;
     text-align: center;
     border:2px solid yellowgreen;

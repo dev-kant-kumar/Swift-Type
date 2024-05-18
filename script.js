@@ -1,18 +1,19 @@
-                                                          // Welcome screen
+                                        // Welcome screen - Provide Necessary Info 
 
 const readyBtn=document.querySelector("#ready-btn");
 const welcomeScreen=document.querySelector(".welcome-section");
 
-const readyBtnEvent=()=>{
+const handleReadyBtnClick=()=>{
     // alert("Typing Speed Test Started");
     welcomeScreen.classList.add("welcome-section-close");
     welcomeScreen.classList.remove("welcome-section"); 
 }
 
-readyBtn.addEventListener("click",readyBtnEvent);
+readyBtn.addEventListener("click",handleReadyBtnClick);
 
-                                                         // Main screen 
-// accessing elements 
+                                            // Main screen - Typing test interface
+// accessing elements on main screen 
+
 let wpm=document.querySelector("#wpm");
 let cpm=document.querySelector("#cpm");
 let errors=document.querySelector("#errors");
@@ -20,11 +21,11 @@ let time=document.querySelector("#time");
 let accuracy=document.querySelector("#accuracy");  
 
 let textToTypeContainer=document.querySelector("#text-to-type-container");
-
 let textTypingSection=document.querySelector("#text-of-typing-section");   
 
 let startBtn=document.querySelector("#start-btn");
 let stopBtn=document.querySelector("#stop-btn");
+
 let resultSection =document.querySelector("#result-section");
 
 // text for typing 
@@ -53,6 +54,7 @@ const textForTyping =[
     ]
 
 ]
+// Declaration of variable used 
 var stopBtnClicked=0;
 var textProvided = "";
 var charProvided = "";
@@ -62,16 +64,16 @@ var typedChar="";
 
 var errorCount=0;
 var charCount=0;
-var wordCount=0;
+var wordCount=1;
 var timeTakenForTyping=0;
 
-
+// provide text as typing test start
 const textProvider=(first,second)=>{
     textProvided = textToTypeContainer.innerText=textForTyping[first][second];
     
 }
 
-
+// provide time as typing test start
 const timeProvider=()=>{
     let timeProvided=60;
     time.innerText=timeProvided;
@@ -112,8 +114,19 @@ const timeProvider=()=>{
    var givenInterval= setInterval(timing,1000);
       
 }
+// This event listener prevent user to press backspace and type more chars then provided
+textTypingSection.addEventListener("keydown", (e) => {
+    const { key } = e;
+    const isBackspace = key === "Backspace";
+    const isMaxLengthReached = textTypingSection.value.length >= textProvided.length;
+    
+    if (isBackspace || isMaxLengthReached) {
+        e.preventDefault();
+    }
+});
 
-const check=()=>{                                                    // checking current input and comparing from provided
+// Checking and matching typed chars and words.
+const checkTyping=()=>{                                                    // checking current input and comparing from provided
     textTypingSection.addEventListener("input",()=>{
        typedText=textTypingSection.value;
        let currentIndex=typedText.length;
@@ -121,15 +134,20 @@ const check=()=>{                                                    // checking
        charProvided= textProvided[currentIndex-1]
 
        if(typedChar===charProvided){
+
            if(typedChar===" "){
                wordCount++;
            }
         charCount++;
+        textTypingSection.classList.remove("incorrect-char");
+        textTypingSection.classList.add("correct-char");
        }
        else{
 
         charCount++;
         errorCount++;
+        textTypingSection.classList.remove("correct-char");
+        textTypingSection.classList.add("incorrect-char");
        }
 
        statistics();
@@ -138,6 +156,7 @@ const check=()=>{                                                    // checking
 
 }
 
+// Creating statistics and displaying
 const statistics =()=>{
     errors.innerText=errorCount;
    
@@ -146,20 +165,21 @@ const statistics =()=>{
     accuracy.innerText=accuracyCal.toFixed(0);
     cpm.innerText=charCount;
     wpm.innerText=wordCount;
-    
+
     performanceDisplay(charCount,wordCount);
 }
 
 
-
+// Handle typing test start event
 const startTypingTest=()=>{
     textProvider(2,4);
     timeProvider();
-    check();
+    checkTyping();
     
 }
 
-const stopBtnEvent=()=>{
+
+const handleStopBtnClick=()=>{
     stopBtnClicked++;
     textTypingSection.setAttribute("disabled", "disabled");
     textTypingSection.style.backgroundColor="red";
@@ -177,38 +197,61 @@ startBtn.addEventListener("click",()=>{
     performanceDisplay();
 })
 
-stopBtn.addEventListener("click",stopBtnEvent);
+stopBtn.addEventListener("click",handleStopBtnClick);
 
 
                                                    // Result Section
                                                    // Result Section-1
-const star1=document.querySelector("#star-1");  
-const star2=document.querySelector("#star-2");  
-const star3=document.querySelector("#star-3");
-const star4=document.querySelector("#star-4");  
-const star5=document.querySelector("#star-5");
-const ratingMsg=document.querySelector("#rating-msg"); 
+const contactMeBtn =document.querySelector("#contact-me-btn");                                                   
+const stars = document.querySelectorAll(".star");
+const ratingMsg = document.querySelector("#rating-msg");
 
-star1.addEventListener("click",()=>{
-    ratingMsg.innerText="Could be better ⭐😞";
+const messages = [
+    "Could be better ⭐😞",
+    "Okay ⭐⭐😐",
+    "Good ⭐⭐⭐🙂",
+    "Great ⭐⭐⭐⭐😃",
+    "Amazing ⭐⭐⭐⭐⭐😍"
+];
 
+// Handle Contact Me btn clicked event
+contactMeBtn.addEventListener("click",()=>{
+    window.open("https://github.com/dev-kant-kumar", "_blank");
 })
-star2.addEventListener("click",()=>{
-    ratingMsg.innerText="Okay ⭐⭐😐";
 
-})
-star3.addEventListener("click",()=>{
-    ratingMsg.innerText="Good ⭐⭐⭐🙂";
+stars.forEach((star, index) => {
+    star.addEventListener("mouseover", () => {
+        highlightStars(index);
+        ratingMsg.innerText = messages[index];
+    });
 
-})
-star4.addEventListener("click",()=>{
-    ratingMsg.innerText="Great ⭐⭐⭐⭐😃";
+    star.addEventListener("click", () => {
+        setRating(index);
+    });
+});
 
-})                                          //    Result-section-2   
-star5.addEventListener("click",()=>{
-    ratingMsg.innerText="⭐⭐⭐⭐⭐😍";
+function highlightStars(index) {
+    stars.forEach((star, i) => {
+        if (i <= index) {
+            star.classList.add("star-hover");
+        } else {
+            star.classList.remove("star-hover");
+        }
+    });
+}
 
-})
+function setRating(index) {
+    stars.forEach((star, i) => {
+        if (i <= index) {
+            star.classList.add("star-hover");
+        } else {
+            star.classList.remove("star-hover");
+        }
+    });
+    ratingMsg.innerText = messages[index];
+    
+}
+
 const timeTaken = document.querySelector("#time-taken"); 
 const wordsLeft = document.querySelector("#words-left");   
 const charsLeft = document.querySelector("#chars-left");
@@ -217,34 +260,22 @@ const restartBtn =document.querySelector("#restart-btn");
 
 const performanceDisplay=(CharCountResult,wordCountResult)=>{
     
-    var wordsInTextProvided=0;
+    const wordsInTextProvided=textProvided.split(" ").length;
+    const charsInTextProvided = textProvided.length;
 
-    for(let i=0;i<textProvided.length;i++){
-        if(textProvided[i]===" "){
-            wordsInTextProvided++;
-        }
-    }
-    // console.log(wordsInTextProvided);
-  console.log(CharCountResult);
-    if(CharCountResult==0){
+    if(CharCountResult==1){
         timeTaken.innerText="60s";
-        charsLeft.innerText=textProvided.length;
+        charsLeft.innerText=charsInTextProvided;
         wordsLeft.innerText=wordsInTextProvided;
-        performanceMsg(CharCountResult);
     }
     else{
 
-    timeTaken.innerText=timeTakenForTyping;
-    // console.log(timeTakenForTyping);
-
-    charsLeft.innerText=(textProvided.length)-CharCountResult;
-
-    var wordCountCal=(wordsInTextProvided - wordCountResult) ;
-    wordsLeft.innerText= wordCountCal;
-   
-    performanceMsg(CharCountResult);
-
+       timeTaken.innerText=timeTakenForTyping;
+       charsLeft.innerText=charsInTextProvided - CharCountResult;
+       wordsLeft.innerText=wordsInTextProvided - wordCountResult ;
+    
     }
+    performanceMsg(CharCountResult);
 
     
     
@@ -272,10 +303,10 @@ const performanceMsg=(charTyped)=>{
 }
 
 
-const restartBtnEvent=()=>{
+const handleRestartBtnClick=()=>{
     alert("Restarting......");
 }
 
-restartBtn.addEventListener("click",restartBtnEvent);
+restartBtn.addEventListener("click",handleRestartBtnClick);
 
 
