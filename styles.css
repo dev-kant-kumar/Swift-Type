@@ -276,6 +276,7 @@ textarea:hover{
     background-size:cover;
     background-position:center center;
 }
+
 #pic-name h3{
     margin:5px 0px;
     font-size:1.5em;
@@ -415,7 +416,7 @@ textarea:hover{
     width:90%;
 }
 #msg-user{
-    height:98%;
+    height:auto;
     width:98%;
     border:2px solid yellowgreen;
     border-radius:10px;
@@ -423,7 +424,7 @@ textarea:hover{
     color:white;
     padding:20px;
     margin:1px auto;
-    font-size:2em;
+    font-size:1.5em;
     text-align:center;
     font-weight:800;
     box-shadow:0px 0px 2px 0px black;

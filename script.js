@@ -63,9 +63,12 @@ var typedChar="";
 var errorCount=0;
 var charCount=0;
 var wordCount=0;
+var timeTakenForTyping=0;
+
 
 const textProvider=(first,second)=>{
     textProvided = textToTypeContainer.innerText=textForTyping[first][second];
+    
 }
 
 
@@ -76,7 +79,9 @@ const timeProvider=()=>{
     const timing=()=>{
         if(timeProvided!==0){
             if(stopBtnClicked>=1){
+                
                 clearInterval(givenInterval);
+                timeTakenForTyping=60-timeProvided;
                 setTimeout(()=>{
                     resultSection.style.display="flex";
                 },2000);
@@ -86,15 +91,18 @@ const timeProvider=()=>{
             else{
                 timeProvided--;
                 time.innerText=timeProvided;
+                timeTakenForTyping=60-timeProvided;
             }
             
 
         }
         else{
+            
             clearInterval(givenInterval);
             textTypingSection.setAttribute("disabled", "disabled");
             textTypingSection.style.backgroundColor="red";
             textTypingSection.placeholder="Time Out";
+            timeTakenForTyping=60-timeProvided;
             setTimeout(()=>{
                 resultSection.style.display="flex";
             },2000);
@@ -125,6 +133,7 @@ const check=()=>{                                                    // checking
        }
 
        statistics();
+       
     })
 
 }
@@ -137,13 +146,17 @@ const statistics =()=>{
     accuracy.innerText=accuracyCal.toFixed(0);
     cpm.innerText=charCount;
     wpm.innerText=wordCount;
+    
+    performanceDisplay(charCount,wordCount);
 }
+
 
 
 const startTypingTest=()=>{
     textProvider(2,4);
     timeProvider();
     check();
+    
 }
 
 const stopBtnEvent=()=>{
@@ -168,17 +181,94 @@ stopBtn.addEventListener("click",stopBtnEvent);
 
 
                                                    // Result Section
-                                                //    Result-section-2   
+                                                   // Result Section-1
+const star1=document.querySelector("#star-1");  
+const star2=document.querySelector("#star-2");  
+const star3=document.querySelector("#star-3");
+const star4=document.querySelector("#star-4");  
+const star5=document.querySelector("#star-5");
+const ratingMsg=document.querySelector("#rating-msg"); 
 
+star1.addEventListener("click",()=>{
+    ratingMsg.innerText="Could be better ⭐😞";
+
+})
+star2.addEventListener("click",()=>{
+    ratingMsg.innerText="Okay ⭐⭐😐";
+
+})
+star3.addEventListener("click",()=>{
+    ratingMsg.innerText="Good ⭐⭐⭐🙂";
+
+})
+star4.addEventListener("click",()=>{
+    ratingMsg.innerText="Great ⭐⭐⭐⭐😃";
+
+})                                          //    Result-section-2   
+star5.addEventListener("click",()=>{
+    ratingMsg.innerText="⭐⭐⭐⭐⭐😍";
+
+})
 const timeTaken = document.querySelector("#time-taken"); 
 const wordsLeft = document.querySelector("#words-left");   
 const charsLeft = document.querySelector("#chars-left");
 const msgForUser =document.querySelector("#msg-user");
 const restartBtn =document.querySelector("#restart-btn");
 
-const performanceDisplay=()=>{
-    charsLeft.innerText=(textProvided.length)-charCount;
-    // let wordsLeftCal;
+const performanceDisplay=(CharCountResult,wordCountResult)=>{
+    
+    var wordsInTextProvided=0;
+
+    for(let i=0;i<textProvided.length;i++){
+        if(textProvided[i]===" "){
+            wordsInTextProvided++;
+        }
+    }
+    // console.log(wordsInTextProvided);
+  console.log(CharCountResult);
+    if(CharCountResult==0){
+        timeTaken.innerText="60s";
+        charsLeft.innerText=textProvided.length;
+        wordsLeft.innerText=wordsInTextProvided;
+        performanceMsg(CharCountResult);
+    }
+    else{
+
+    timeTaken.innerText=timeTakenForTyping;
+    // console.log(timeTakenForTyping);
+
+    charsLeft.innerText=(textProvided.length)-CharCountResult;
+
+    var wordCountCal=(wordsInTextProvided - wordCountResult) ;
+    wordsLeft.innerText= wordCountCal;
+   
+    performanceMsg(CharCountResult);
+
+    }
+
+    
+    
+}
+
+const performanceMsg=(charTyped)=>{
+    if(charTyped==textProvided.length){
+        msgForUser.innerText="Incredible job! Your typing speed and accuracy are outstanding!";
+    }
+    else if(charTyped==((textProvided.length)-5)){
+        msgForUser.innerText="Your typing speed is good, keep practicing and you'll see great progress!";
+
+    }
+    else if(charTyped==0){
+        msgForUser.innerText="You have not typed anything!";
+    }
+    else if(charTyped>textProvided.length || charTyped <0){
+        msgForUser.innerText="You exceed on chars.";
+
+    }
+    else{
+        msgForUser.innerText="Practice more. You'll get better over time.";
+
+    }
 }
 
 
