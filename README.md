@@ -15,6 +15,12 @@ This project is live at [Swift Type Live](https://dev-kant-kumar.github.io/Swift
 - [License](#license)
 
 ## Introduction
+![Screenshot 2024-05-19 155635](https://github.com/dev-kant-kumar/Swift-Type/assets/101362859/4c12e97b-6fc9-4e69-9b51-98e1ff4f686b)
+![Screenshot 2024-05-19 155649](https://github.com/dev-kant-kumar/Swift-Type/assets/101362859/90b9196b-0fe0-4607-a654-26cc82330dc5)
+![Screenshot 2024-05-19 155720](https://github.com/dev-kant-kumar/Swift-Type/assets/101362859/7ab919b0-554a-4c8a-80a7-0c928a092c97)
+![Screenshot 2024-05-19 155752](https://github.com/dev-kant-kumar/Swift-Type/assets/101362859/0f0a2e80-b850-4bde-bb2b-4b30bd85d487)
+![Screenshot 2024-05-19 155808](https://github.com/dev-kant-kumar/Swift-Type/assets/101362859/0b1b9427-aa54-4886-962c-8f5cf26839b1)
+
 
 Swift Type is a fun and engaging typing speed test application that offers users the opportunity to enhance their typing skills. Users can start the test with a variety of texts, and the application will track and display their typing speed (WPM), character count (CPM), accuracy, and errors in real-time. After the test, users receive a detailed summary of their performance.
 
