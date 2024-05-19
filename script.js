@@ -1,4 +1,4 @@
-                                        // Welcome screen - Provide Necessary Info 
+                       // Welcome screen - Provide Necessary Info 
 
 const readyBtn=document.querySelector("#ready-btn");
 const welcomeScreen=document.querySelector(".welcome-section");
@@ -144,7 +144,7 @@ const checkTyping=()=>{                                                    // ch
        }
        else{
 
-        charCount++;
+        // charCount++; // In case of wrong char entered no increment in char count bcz its creates final performance.
         errorCount++;
         textTypingSection.classList.remove("correct-char");
         textTypingSection.classList.add("incorrect-char");
@@ -169,21 +169,34 @@ const statistics =()=>{
     performanceDisplay(charCount,wordCount);
 }
 
+// generating random number
+const getRandomInt=(min,max)=>{
+    min=Math.ceil(min);
+    max=Math.floor(max);
+  return  Math.floor(Math.random()*(max-min+1))+min;
+}
 
 // Handle typing test start event
 const startTypingTest=()=>{
-    textProvider(2,4);
+
+    let firstNo=getRandomInt(0,textForTyping.length-1);
+    let secondNo=getRandomInt(0,textForTyping[firstNo].length-1);
+    textProvider(firstNo,secondNo);
     timeProvider();
     checkTyping();
     
 }
 
 
-const handleStopBtnClick=()=>{
+const handleStopBtnClick=()=>{ 
     stopBtnClicked++;
     textTypingSection.setAttribute("disabled", "disabled");
     textTypingSection.style.backgroundColor="red";
     textTypingSection.placeholder="Stopped";
+    if(textTypingSection.value==""){
+
+        performanceDisplay(charCount,wordCount);
+    }
 
 }
 
@@ -282,23 +295,20 @@ const performanceDisplay=(CharCountResult,wordCountResult)=>{
 }
 
 const performanceMsg=(charTyped)=>{
-    if(charTyped==textProvided.length){
+    if(charTyped==0){
+        msgForUser.innerText="You have not typed anything!";
+    }
+    else if(charTyped==textProvided.length){
         msgForUser.innerText="Incredible job! Your typing speed and accuracy are outstanding!";
     }
-    else if(charTyped==((textProvided.length)-5)){
+    else if(charTyped>=textProvided.length-5){
         msgForUser.innerText="Your typing speed is good, keep practicing and you'll see great progress!";
-
-    }
-    else if(charTyped==0){
-        msgForUser.innerText="You have not typed anything!";
     }
     else if(charTyped>textProvided.length || charTyped <0){
         msgForUser.innerText="You exceed on chars.";
-
     }
     else{
         msgForUser.innerText="Practice more. You'll get better over time.";
-
     }
 }
 
